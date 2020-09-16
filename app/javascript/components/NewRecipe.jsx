@@ -7,7 +7,8 @@ class NewRecipe extends React.Component {
     this.state = {
       name: "",
       ingredients: "",
-      instruction: ""
+      instruction: "",
+      image: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -28,7 +29,7 @@ class NewRecipe extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const url = "/api/v1/recipes/create";
-    const { name, ingredients, instruction } = this.state;
+    const { name, ingredients, instruction, image } = this.state;
 
     if (name.length == 0 || ingredients.length == 0 || instruction.length == 0)
       return;
@@ -36,7 +37,8 @@ class NewRecipe extends React.Component {
     const body = {
       name,
       ingredients,
-      instruction: instruction.replace(/\n/g, "<br> <br>")
+      instruction: instruction.replace(/\n/g, "<br> <br>"),
+      image
     };
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -64,7 +66,7 @@ class NewRecipe extends React.Component {
         <div className="row">
           <div className="col-sm-12 col-lg-6 offset-lg-3">
             <h1 className="font-weight-normal mb-5">
-              Add a new recipe to our awesome recipe collection.
+              Add a new recipe to your awesome recipe collection.
             </h1>
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
@@ -101,6 +103,17 @@ class NewRecipe extends React.Component {
                 required
                 onChange={this.onChange}
               />
+              <div className="form-group">
+                <label htmlFor="recipeImage">Recipe image url (optional)</label>
+                <input
+                  type="text"
+                  name="image"
+                  id="recipeImage"
+                  className="form-control"
+                  required
+                  onChange={this.onChange}
+                />
+              </div>
               <button type="submit" className="btn custom-button mt-3">
                 Create Recipe
               </button>
